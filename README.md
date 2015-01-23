@@ -4,9 +4,9 @@ Show system information about LXC container such as memory usage and cpu usage.
 Usage: lxcstat.py [options]
 
 Options:
-  -h, --help            show this help message and exit
+  -h, --help            show this help message and exit\n
   -t TYPE, --type=TYPE
                         show info about memory (mem) or cpu usage (cpu). Show
                         only total memory (memtotal) or used memory (memused)
-                        in megabytes.
-  -n NAME, --name=NAME  NAME for name of the container
+                        in megabytes.\n
+  -n NAME, --name=NAME  NAME for name of the container\n
