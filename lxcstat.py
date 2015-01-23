@@ -22,11 +22,11 @@
 #  
 #  
 
-import ast, sys, time
+import ast, sys, time, re
 from optparse import OptionParser
 from collections import Iterable
 from subprocess import Popen, PIPE
-from re import search
+
 
 interval = 1
 
@@ -42,8 +42,8 @@ def main():
 		parser.error('Container name not given')
 	global cgroup_dir
 	cgroup_dir = '/sys/fs/cgroup/lxc/%s/' % options.container_name
-	proc = subprocess.Popen(["lxc-info", "-q", "-s", "-n", options.container_name],
-	stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	proc = Popen(["lxc-info", "-q", "-s", "-n", options.container_name],
+	stdout = PIPE, stderr = PIPE)
 	output , err = proc.communicate()
 	output = str(output)
 	
