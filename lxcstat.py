@@ -106,6 +106,13 @@ def cpu_usage():
     try:
         with open('%s/cpuset.cpus' % cgroup_dir, "r") as cpusetfile:
             cpulist = ast.literal_eval(cpusetfile.read())
+
+            cpulist = cpusetfile.read().split(sep=',')
+            for n_cpulist in range(len(cpulist)):
+                if re.search('',cpulist[n_cpulist]):
+                    cpu_underlist = cpulist[n_cpulist].split(sep='-')
+                    cpulist += cpu_underlist
+                    cpulist.pop(n_cpulist)
     except IOError:
         sys.stderr.write("Can't open cpuset.cpus\n")
         sys.exit(1)
