@@ -4,31 +4,13 @@
 # lxcstat.py
 #  
 #  Copyright 2015 Nikonov Alexander <sgloom@gmail.com>
-#  
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#  
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#  
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software
-#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#  MA 02110-1301, USA.
-#  
-#  
+#
 
 
-import ast
 import sys
 import time
 import re
 from optparse import OptionParser
-from collections import Iterable
 from subprocess import Popen, PIPE
 
 
@@ -105,26 +87,19 @@ def get_mem():
 def cpu_usage():
     try:
         with open('%s/cpuset.cpus' % cgroup_dir, "r") as cpusetfile:
-            cpulist = ast.literal_eval(cpusetfile.read())
-
-            cpulist = cpusetfile.read().split(sep=',')
+            cpulist = cpusetfile.read().split(',')
             for n_cpulist in range(len(cpulist)):
-                if re.search('',cpulist[n_cpulist]):
-                    cpu_underlist = cpulist[n_cpulist].split(sep='-')
+                if re.search('\d*-\d*',cpulist[n_cpulist]) is not None:
+                    cpu_underlist = cpulist[n_cpulist].split('-')
+                    cpu_underlist = range(int(cpu_underlist[0]), int(cpu_underlist[1])+1)
                     cpulist += cpu_underlist
                     cpulist.pop(n_cpulist)
+
     except IOError:
         sys.stderr.write("Can't open cpuset.cpus\n")
         sys.exit(1)
-    cpus = 0
-    if not isinstance(cpulist, Iterable):
-        cpulist = [cpulist]
 
-    for n in cpulist:
-        if n < 0:
-            cpus += (abs(n) + 1)
-        else:
-            cpus += 1
+    cpus = len(cpulist)
     firstvalues = get_cpu()
     time.sleep(interval)
     secondvalues = get_cpu()
