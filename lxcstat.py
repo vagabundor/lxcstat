@@ -14,7 +14,7 @@ from optparse import OptionParser
 from subprocess import Popen, PIPE
 
 
-interval = 5
+interval = 7
 
 
 def main():
