@@ -89,7 +89,7 @@ def cpu_usage():
         with open('%s/cpuset.cpus' % cgroup_dir, "r") as cpusetfile:
             cpulist = cpusetfile.read().split(',')
             for n_cpulist in range(len(cpulist)):
-                if re.search('\d*-\d*',cpulist[n_cpulist]) is not None:
+                if re.search('\d*-\d*', cpulist[n_cpulist]) is not None:
                     cpu_underlist = cpulist[n_cpulist].split('-')
                     cpu_underlist = range(int(cpu_underlist[0]), int(cpu_underlist[1])+1)
                     cpulist += cpu_underlist
